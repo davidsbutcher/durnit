@@ -1,5 +1,5 @@
 #' @export
-durnit <- function(input_dir, output_dir) {
+durnit <- function(input_dir = NULL, output_dir = NULL) {
 
    # Packages ----------------------------------------------------------------
 
@@ -11,15 +11,11 @@ durnit <- function(input_dir, output_dir) {
 
    # Initialization ----------------------------------------------------------
 
-   paste("Rendering all Rmd files in ",
-         input_dir, sep = "") %>%
-      message
+   if (is.null(input_dir) == TRUE) stop("No input directory provided")
 
-   if (dir_exists(input_dir) == FALSE) {
+   if (is.null(output_dir) == TRUE) stop("No output directory provided")
 
-      stop("Input directory not found")
-
-   }
+   if (dir_exists(input_dir) == FALSE) stop("Input directory not found")
 
    if (dir_exists(output_dir) == FALSE) {
 
@@ -28,6 +24,9 @@ durnit <- function(input_dir, output_dir) {
 
    }
 
+   paste("Rendering all Rmd files in ",
+         input_dir, sep = "") %>%
+      message
 
    # Make snapshot -----------------------------------------------------------
 
