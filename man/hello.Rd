@@ -1,12 +1,12 @@
-\name{hello}
-\alias{hello}
-\title{Hello, World!}
+\name{durnit}
+\alias{durnit}
+\title{durnit}
 \usage{
-hello()
+durnit()
 }
 \description{
-Prints 'Hello, world!'.
+A function for knitting all Rmarkdown documents in a directory according to the output format specified in their YAML frontmatter.
 }
 \examples{
-hello()
+durnit()
 }
