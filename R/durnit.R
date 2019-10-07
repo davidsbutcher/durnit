@@ -1,4 +1,4 @@
-
+#' @export
 durnit <- function(input_dir, output_dir) {
 
    # Packages ----------------------------------------------------------------
