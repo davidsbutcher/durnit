@@ -11,9 +11,9 @@ durnit <- function(input_dir, output_dir) {
 
    # Initialization ----------------------------------------------------------
 
-   if (is.null(input_dir) == TRUE) stop("No input directory provided")
+   if (hasArg(input_dir) == FALSE) stop("No input directory provided")
 
-   if (is.null(output_dir) == TRUE) stop("No output directory provided")
+   if (hasArg(output_dir) == FALSE) stop("No output directory provided")
 
    if (dir_exists(input_dir) == FALSE) stop("Input directory not found")
 
