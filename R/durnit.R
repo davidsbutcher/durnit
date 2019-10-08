@@ -7,9 +7,9 @@ durnit <- function(input_dir, output_dir) {
 
    # Initialization ----------------------------------------------------------
 
-   if (exists("input_dir") == FALSE) stop("No input directory provided")
+   if (missing(input_dir) == TRUE) stop("No input directory provided")
 
-   if (exists("output_dir") == FALSE) stop("No output directory provided")
+   if (missing(output_dir) == TRUE) stop("No output directory provided")
 
    input_dir <- normalizePath(input_dir, winslash = "/")
 
