@@ -1,23 +1,23 @@
+#' @param input_dir
+#'
+#' @param output_dir
+#'
 #' @export
 durnit <- function(input_dir, output_dir) {
 
-   # Packages ----------------------------------------------------------------
-
-   library(magrittr)
-   library(purrr)
-   library(tools)
-   library(fs)
-   library(rmarkdown)
-
    # Initialization ----------------------------------------------------------
 
-   if (hasArg(input_dir) == FALSE) stop("No input directory provided")
+   if (exists("input_dir") == FALSE) stop("No input directory provided")
 
-   if (hasArg(output_dir) == FALSE) stop("No output directory provided")
+   if (exists("output_dir") == FALSE) stop("No output directory provided")
 
-   if (dir_exists(input_dir) == FALSE) stop("Input directory not found")
+   input_dir <- normalizePath(input_dir, winslash = "/")
 
-   if (dir_exists(output_dir) == FALSE) {
+   output_dir <- normalizePath(output_dir, winslash = "/")
+
+   if (fs::dir_exists(input_dir) == FALSE) stop("Input directory not found")
+
+   if (fs::dir_exists(output_dir) == FALSE) {
 
       message("Creating missing output directory")
       fs::dir_create(output_dir)
@@ -44,7 +44,7 @@ durnit <- function(input_dir, output_dir) {
 
    setwd(output_dir)
 
-   if (file_exists("rmdsnapshot.rds") == TRUE) {
+   if (fs::file_exists("rmdsnapshot.rds") == TRUE) {
 
       message("Loading snapshot in output directory")
 
@@ -55,19 +55,19 @@ durnit <- function(input_dir, output_dir) {
       rmdlist <-
          changedFiles(oldsnapshot, newsnapshot) %>%
          .[c("changed", "added")] %>%
-         flatten_chr %>%
+         purrr::flatten_chr %>%
          normalizePath(winslash = "/") %>%
          as.list
 
       dirlist <-
          rmdlist %>%
-         map(~path_rel(.x, start = input_dir)) %>%
+         map(~fs::path_rel(.x, start = input_dir)) %>%
          map(dirname)
 
       outputlist <-
          rmdlist %>%
-         map(~path_rel(.x, start = input_dir)) %>%
-         map(path_ext_remove) %>%
+         map(~fs::path_rel(.x, start = input_dir)) %>%
+         map(fs::path_ext_remove) %>%
          map(~paste(output_dir, ., ".html", sep = ""))
 
    } else {
@@ -85,13 +85,13 @@ durnit <- function(input_dir, output_dir) {
 
       dirlist <-
          rmdlist %>%
-         map(~path_rel(.x, start = input_dir)) %>%
+         map(~fs::path_rel(.x, start = input_dir)) %>%
          map(dirname)
 
       outputlist <-
          rmdlist %>%
-         map(~path_rel(.x, start = input_dir)) %>%
-         map(path_ext_remove) %>%
+         map(~fs::path_rel(.x, start = input_dir)) %>%
+         map(fs::path_ext_remove) %>%
          map(~paste(output_dir, ., ".html", sep = ""))
 
    }
@@ -102,9 +102,9 @@ durnit <- function(input_dir, output_dir) {
 
       for (i in seq_along(dirlist)) {
 
-         if (dir.exists(dirlist[[i]]) == FALSE) {
+         if (fs::dir_exists(dirlist[[i]]) == FALSE) {
 
-            dir.create(dirlist[[i]])
+            fs::dir_create(dirlist[[i]])
             message(paste("Directory", dirlist[[i]], "not found, created"))
 
          } else {
@@ -119,8 +119,8 @@ durnit <- function(input_dir, output_dir) {
       # Knit new/changed documents -------------------------------------------
 
       yamloutput <- rmdlist %>%
-         map(yaml_front_matter) %>%
-         map(extract2, "output") %>%
+         map(rmarkdown::yaml_front_matter) %>%
+         map(purrr::extract2, "output") %>%
          map(names)
 
       pwalk(list(rmdlist, outputlist, yamloutput),
