@@ -1,5 +1,5 @@
 #' @export
-durnit <- function(input_dir = NULL, output_dir = NULL) {
+durnit <- function(input_dir, output_dir) {
 
    # Packages ----------------------------------------------------------------
 
