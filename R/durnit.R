@@ -37,7 +37,7 @@ durnit <- function(input_dir, output_dir) {
    # Make snapshot -----------------------------------------------------------
 
    newsnapshot <-
-      fileSnapshot(input_dir,
+      utils::fileSnapshot(input_dir,
                    recursive = TRUE,
                    file.info = TRUE,
                    md5sum = TRUE,
@@ -59,7 +59,7 @@ durnit <- function(input_dir, output_dir) {
       message("Extracting new/changed Rmd file names")
 
       rmdlist <-
-         changedFiles(oldsnapshot, newsnapshot) %>%
+         utils::changedFiles(oldsnapshot, newsnapshot) %>%
          .[c("changed", "added")] %>%
          purrr::flatten_chr() %>%
          normalizePath(winslash = "/") %>%
