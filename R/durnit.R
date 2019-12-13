@@ -10,7 +10,6 @@
 #' @export
 durnit <- function(input_dir, output_dir) {
 
-
 # Error Checking ----------------------------------------------------------
 
    if (missing(input_dir)) stop("No input directory provided")
@@ -25,12 +24,12 @@ durnit <- function(input_dir, output_dir) {
 
    if (fs::dir_exists(output_dir) == FALSE) {
 
-      message("Creating missing output directory")
+      message("\nCreating missing output directory")
       fs::dir_create(output_dir)
 
    }
 
-   paste("Rendering all Rmd files in ",
+   paste("\nRendering all Rmd files in ",
          input_dir, sep = "") %>%
       message
 
@@ -52,11 +51,11 @@ durnit <- function(input_dir, output_dir) {
 
    if (fs::file_exists("rmdsnapshot.rds") == TRUE) {
 
-      message("Loading snapshot in output directory")
+      message("\nLoading snapshot in output directory")
 
       oldsnapshot <- readRDS("rmdsnapshot.rds")
 
-      message("Extracting new/changed Rmd file names")
+      message("\nExtracting new/changed Rmd file names")
 
       rmdlist <-
          utils::changedFiles(oldsnapshot, newsnapshot) %>%
@@ -78,7 +77,7 @@ durnit <- function(input_dir, output_dir) {
 
    } else {
 
-      message("NO snapshot found! Writing current snapshot to output directory")
+      message("\nNO snapshot found! Writing current snapshot to output directory")
       message("Knitting ALL Rmd files in input directory and subdirectories")
 
       saveRDS(newsnapshot, file = "rmdsnapshot.rds")
@@ -111,11 +110,11 @@ durnit <- function(input_dir, output_dir) {
          if (fs::dir_exists(dirlist[[i]]) == FALSE) {
 
             fs::dir_create(dirlist[[i]])
-            message(paste("Directory", dirlist[[i]], "not found, created"))
+            message(paste("\nDirectory", dirlist[[i]], "not found, created"))
 
          } else {
 
-            message(paste("Directory", dirlist[[i]],
+            message(paste("\nDirectory", dirlist[[i]],
                           "found for", basename(outputlist[[i]])))
 
          }
@@ -138,12 +137,12 @@ durnit <- function(input_dir, output_dir) {
 
       saveRDS(newsnapshot, file = "rmdsnapshot.rds")
 
-      message("New/changed Rmd files knitted to output
-directory and new snapshot saved. FINISHED")
+      message("\n\nNew/changed Rmd files knitted to output
+directory and new snapshot saved. FINISHED.")
 
    } else {
 
-      message("No new or changed Rmd files in input directory. FINISHED")
+      message("\n\nNo new or changed Rmd files in input directory. FINISHED.")
 
    }
 
