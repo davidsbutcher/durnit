@@ -67,14 +67,14 @@ durnit <- function(input_dir, output_dir) {
 
       dirlist <-
          rmdlist %>%
-         map(~fs::path_rel(.x, start = input_dir)) %>%
-         map(dirname)
+         purrr::map(~fs::path_rel(.x, start = input_dir)) %>%
+         purrr::map(dirname)
 
       outputlist <-
          rmdlist %>%
-         map(~fs::path_rel(.x, start = input_dir)) %>%
-         map(fs::path_ext_remove) %>%
-         map(~paste(output_dir, ., ".html", sep = ""))
+         purrr::map(~fs::path_rel(.x, start = input_dir)) %>%
+         purrr::map(fs::path_ext_remove) %>%
+         purrr::map(~paste(output_dir, ., ".html", sep = ""))
 
    } else {
 
@@ -91,14 +91,14 @@ durnit <- function(input_dir, output_dir) {
 
       dirlist <-
          rmdlist %>%
-         map(~fs::path_rel(.x, start = input_dir)) %>%
-         map(dirname)
+         purrr::map(~fs::path_rel(.x, start = input_dir)) %>%
+         purrr::map(dirname)
 
       outputlist <-
          rmdlist %>%
-         map(~fs::path_rel(.x, start = input_dir)) %>%
-         map(fs::path_ext_remove) %>%
-         map(~paste(output_dir, ., ".html", sep = ""))
+         purrr::map(~fs::path_rel(.x, start = input_dir)) %>%
+         purrr::map(fs::path_ext_remove) %>%
+         purrr::map(~paste(output_dir, ., ".html", sep = ""))
 
    }
 
@@ -125,14 +125,14 @@ durnit <- function(input_dir, output_dir) {
       # Knit new/changed documents -------------------------------------------
 
       yamloutput <- rmdlist %>%
-         map(rmarkdown::yaml_front_matter) %>%
-         map(purrr::extract2, "output") %>%
-         map(names)
+         purrr::map(rmarkdown::yaml_front_matter) %>%
+         purrr::map(purrr::extract2, "output") %>%
+         purrr::map(names)
 
-      pwalk(list(rmdlist, outputlist, yamloutput),
-            ~rmarkdown::render(input = ..1,
-                               output_file = ..2,
-                               output_format = ..3))
+      purrr::pwalk(list(rmdlist, outputlist, yamloutput),
+                   ~rmarkdown::render(input = ..1,
+                                      output_file = ..2,
+                                      output_format = ..3))
 
       # Save the new snapshot at the end, just in case something fails above!
 
@@ -144,6 +144,7 @@ directory and new snapshot saved. FINISHED")
    } else {
 
       message("No new or changed Rmd files in input directory. FINISHED")
+
    }
 
 }
