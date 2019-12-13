@@ -1,11 +1,17 @@
-#' @param input_dir
+#' Knit all .Rmd files in a directory.
 #'
-#' @param output_dir
+#' @importFrom magrittr %>%
+#'
+#' @param input_dir Input directory
+#' @param output_dir Output directory
+#'
+#' @return Knitted documents in the appropriate output format
 #'
 #' @export
 durnit <- function(input_dir, output_dir) {
 
-   # Initialization ----------------------------------------------------------
+
+# Error Checking ----------------------------------------------------------
 
    if (missing(input_dir)) stop("No input directory provided")
 
