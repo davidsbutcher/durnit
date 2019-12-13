@@ -61,9 +61,9 @@ durnit <- function(input_dir, output_dir) {
       rmdlist <-
          changedFiles(oldsnapshot, newsnapshot) %>%
          .[c("changed", "added")] %>%
-         purrr::flatten_chr %>%
+         purrr::flatten_chr() %>%
          normalizePath(winslash = "/") %>%
-         as.list
+         as.list()
 
       dirlist <-
          rmdlist %>%
@@ -85,9 +85,9 @@ durnit <- function(input_dir, output_dir) {
 
       rmdlist <-
          newsnapshot$info %>%
-         rownames %>%
+         rownames() %>%
          normalizePath(winslash = "/") %>%
-         as.list
+         as.list()
 
       dirlist <-
          rmdlist %>%
