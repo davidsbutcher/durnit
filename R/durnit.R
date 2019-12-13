@@ -125,7 +125,7 @@ durnit <- function(input_dir, output_dir) {
 
       yamloutput <- rmdlist %>%
          purrr::map(rmarkdown::yaml_front_matter) %>%
-         purrr::map(purrr::extract2, "output") %>%
+         purrr::map(magrittr::extract2, "output") %>%
          purrr::map(names)
 
       purrr::pwalk(list(rmdlist, outputlist, yamloutput),
